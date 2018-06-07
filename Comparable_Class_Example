@@ -1,0 +1,61 @@
+package v1;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Facility_ID implements Comparable<Facility_ID>{
+  private String id = new String();
+	private String month = new String();
+	private String year = new String();
+	
+	public Facility_ID(String id, String month, String year) {
+		this.id = id;
+		this.month = month;
+		this.year = year;
+	}
+
+	static public void set_ID_Order(ArrayList<String> id, ArrayList<String> month, ArrayList<String> year){
+		List<Facility_ID> master_list = new ArrayList<Facility_ID>();
+
+		for(int i = 0; i<id.size(); i++){
+			Facility_ID mt = new Facility_ID(id.get(i), month.get(i), year.get(i));
+			master_list.add((Facility_ID) mt);
+		}
+
+		Collections.sort(master_list);
+
+		id.clear();
+		month.clear();
+		year.clear();
+
+		for(int i = 0; i < master_list.size(); i++){
+			id.add(master_list.get(i).getId());
+			month.add(master_list.get(i).getMonth());
+			year.add(master_list.get(i).getYear());
+		}
+	}
+	
+	public int compareTo(Facility_ID o) {
+	return id.compareTo(o.id);
+	}
+  //Getters and Setters
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+}
