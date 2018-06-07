@@ -1,0 +1,57 @@
+package v1;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+
+import com.healthmarketscience.jackcess.Database;
+import com.healthmarketscience.jackcess.DatabaseBuilder;
+import com.healthmarketscience.jackcess.Row;
+import com.healthmarketscience.jackcess.Table;
+
+
+public class DuplicateChecker {
+	
+	final String DB_FILE_PATH = FilepathHandler.dbFileLocation;
+    
+    final String TABLE_NAME = "BOTH Annual Report Tracking";
+    
+    private boolean hasDuplicateValue = false;
+	
+	public DuplicateChecker(String valueToCheck) throws IOException{
+		
+		//Open the database
+		Database db = DatabaseBuilder.open(new File(DB_FILE_PATH));
+		
+		//Read the table
+		Table table = db.getTable(TABLE_NAME);
+		
+		int numRows = table.getRowCount();
+		
+		String[] idArray = new String[numRows];
+        String[] yearArray = new String[numRows];
+        
+        int index = 0;
+        
+        //Save every value in column
+        for (Row row : table) {
+        	idArray[index] = row.get("CPCN ID").toString();
+        	yearArray[index++] = row.get("Report Year").toString();
+        }
+        
+        //Loop through column values
+        for(int i = 0; i < idArray.length; i++){
+        	
+        	if(idArray[i].equals(valueToCheck) && yearArray[i].equals("2017")){
+        		hasDuplicateValue = true;
+        	}
+        	
+        }
+
+	}
+	
+	public boolean getHasDuplicateValue(){
+    	return this.hasDuplicateValue;
+    }
+
+}
